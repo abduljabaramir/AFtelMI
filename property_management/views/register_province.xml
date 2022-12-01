@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="province_tree" model="ir.ui.view">
+        <field name="name">mcit.property.province.tree</field>
+        <field name="model">mcit.property.province</field>
+        <field name="arch" type="html">
+            <p>Province Registration Form</p>
+        </field>
+        <field name="arch" type="xml">
+            <!--                     note:if you we want to add tree view we use <tree></tree> tag
+            for kanban veiw we use <kanban></kanban> tag
+            -->
+
+            <tree>
+                <field name="Province_Name"/>
+                <field name="Region_id"/>
+
+            </tree>
+
+        </field>
+    </record>
+
+
+    <record id="action_register_new_province" model="ir.actions.act_window">
+        <field name="name">Add New Province</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mcit.property.province</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                add your new Province!
+            </p>
+        </field>
+    </record>
+    <!--     this is the top menu of the model-->
+    <menuitem action="action_register_new_province"
+              id="menu_location_province"
+              name="New Province"
+              parent="menu_location_root" sequence="1"/>
+
+
+
+</odoo>

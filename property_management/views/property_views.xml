@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="seq_hospital_patient" model="ir.sequence">
+            <field name="name">property sequence</field>
+            <field name="code">property</field>
+            <field name="prefix">HP</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Property -->
+        <record id="view_property_tree" model="ir.ui.view">
+            <field name="name">property.tree</field>
+            <field name="model">property</field>
+            <field name="arch" type="xml">
+                <tree string="Properties" sample="1" multi_edit="1">
+                    <field name="display_name" string="Complete Name" optional="show"/>
+                    <field name="name" string="Name" optional="hide"/>
+                    <field string="Site Number" name="site_number" optional="hide"/>
+                    <field string="Region" name="region_id" optional="hide"/>
+                    <field string="Province" name="province_id" optional="hide"/>
+                    <field string="District" name="district_id" optional="hide"/>
+                    <field string="Type of Lessor" name="typeof_lessor" optional="hide"/>
+                    <field string="Property Owner" name="lessor_name" optional="hide"/>
+                    <field string="Father/Name" name="lessor_fname" optional="hide"/>
+                    <field string="Contact No" name="phone_no" optional="hide"/>
+                    <field string="Monthly Rent" name="monthly_rent" optional="hide"/>
+                    <field string="Monitory Unit" name="monetary_unit" optional="hide"/>
+                    <field string="Bank Account" name="bank_account" optional="hide"/>
+                    <field name="bank_name" string="Bank Name" optional="hide"/>
+                    <field string="Contract Start Date" name="contract_start_date" optional="hide"/>
+                    <field string="Contract End Date" name="contract_end_date" optional="hide"/>
+                    <field name="no_of_floor" optional="hide"/>
+                    <field name="no_of_room" optional="hide"/>
+                    <field name="no_of_bathroom" optional="hide"/>
+                    <field name="no_of_hall" optional="hide"/>
+                    <field name="property_type" optional="hide"/>
+                    <field name="building_type" optional="hide"/>
+                    <field name="type" optional="hide"/>
+                    <field name="parent_id" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_property_search" model="ir.ui.view">
+            <field name="name">property.search</field>
+            <field name="model">property</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="display_name" string="Complete Name"/>
+                    <field name="site_number" string="Site Number"/>
+                    <field name="region_id" string="Region Name"/>
+                    <field name="province_id" string="Province Name"/>
+                    <field name="district_id" string="District Name"/>
+                    <field name="type" string="type"/>
+                    <filter
+                            string="Property List"
+                            name="display_name"
+                            domain="['&amp;',('parent_id','=',False),('type','=','property')]"
+                    />
+                    <filter
+                            string="Site List"
+                            name="display_name"
+                            domain="['&amp;',('parent_id','=',False),('type','=','site')]"
+                    />
+                    <filter
+                            string="Pokhta"
+                            name="display_name"
+                            domain="['&amp;',('parent_id','=',False),('building_type','=','pokhta')]"
+                    />
+                    <filter
+                            string="Half Pokhta"
+                            name="display_name"
+                            domain="['&amp;',('parent_id','=',False),('building_type','=','nim-pokhta')]"
+                    />
+                    <filter
+                            string="Khama"
+                            name="display_name"
+                            domain="['&amp;',('type','=','property'),('building_type','=','khama')]"
+                    />
+                    <filter
+                            string="Land"
+                            name="display_name"
+                            domain="['&amp;',('type','=','property'),('property_type','=','land')]"
+                    />
+                    <filter
+                            string="Yard"
+                            name="display_name"
+                            domain="['&amp;',('type','=','property'),('property_type','=','yard')]"
+                    />
+                    <filter
+                            string="Building"
+                            name="display_name"
+                            domain="['&amp;',('type','=','property'),('property_type','=','building')]"
+                    />
+                </search>
+            </field>
+        </record>
+
+        <record id="view_property_form" model="ir.ui.view">
+            <field name="name">property.form</field>
+            <field name="model">property</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <form string="Property">
+                    <sheet>
+                        <field name="is_root" invisible="1"/>
+                        <field name="parent_id" invisible="1"/>
+                        <field name="active" invisible="1"/>
+                        <field name="type" widget="radio" options="{'horizontal': true}" attrs="{'invisible': ['&amp;',('type','!=', 'property'),('type','!=','site')]}"/>
+
+                        <div class="oe_title mb24">
+
+                            <h1>
+                                <field id="individual" class="text-break" name="name" default_focus="1"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="property_type"
+                                       attrs="{'invisible': [('type','!=','property')], 'required': [('type', '=', 'property')]}"/>
+                                <field name="building_type"
+                                       attrs="{'invisible': ['|',('type','!=','property'), ('property_type','!=','building')], 'required': [('property_type', '=', 'building')]}"/>
+                                <field name="area"/>
+                                <field name="property_uom"/>
+                                <field name="region_id" placeholder="Region Name"/>
+                                <field name="province_id" placeholder="Province Name"/>
+                                <field name="district_id" placeholder="District Name"/>
+                                <field name="Nahya" placeholder="Nahya Name"/>
+                                <field name="Qarya" placeholder="Qarya Name"/>
+
+
+                            </group>
+                            <group>
+                                <field name="no_of_floor"
+                                       attrs="{'invisible': ['|',('type','!=','property'),('property_type','!=','building')]}"/>
+                                <field name="no_of_room"
+                                       attrs="{'invisible': ['|',('type','!=','property'),('property_type','!=','building')]}"/>
+                                <field name="no_of_bathroom"
+                                       attrs="{'invisible': ['|',('type','!=','property'),('property_type','!=','building')]}"/>
+                                <field name="no_of_hall"
+                                       attrs="{'invisible': ['|',('type','!=','property'),('property_type','!=','building')]}"/>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Floors" name="floors" autofocus="autofocus"
+                                  attrs="{'invisible': ['|',('type','!=','property'),('property_type','!=','building')]}">
+                                <field name="child_ids" mode="tree" context="{'default_building_part': 'floor'}">
+                                    <tree>
+                                        <field name="building_part"/>
+                                        <field name="name"/>
+                                        <field name="no_of_room"/>
+                                        <field name="no_of_bathroom"/>
+                                        <field name="no_of_hall"/>
+                                    </tree>
+                                    <form string="Contact / Address">
+                                        <sheet>
+                                            <field name="active" invisible="1"/>
+                                            <field name="parent_id" invisible="1"/>
+                                            <group>
+                                                <group>
+                                                    <field name="name" string="Floor Name"/>
+                                                </group>
+                                                <group>
+                                                    <field name="no_of_room"/>
+                                                    <field name="no_of_bathroom"/>
+                                                    <field name="no_of_hall"/>
+                                                </group>
+                                            </group>
+                                            <notebook>
+                                                <page string="Floor Parts" name="floor_parts">
+                                                    <field name="child_ids" context="{'default_building_part': 'room'}">
+                                                        <tree editable="bottom">
+                                                            <field name="building_part" required="1"/>
+                                                            <field name="name"/>
+                                                            <field name="area"/>
+                                                            <field name="property_uom"/>
+                                                        </tree>
+                                                    </field>
+                                                </page>
+                                            </notebook>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Key information" attrs="{'invisible': [('type','!=','property')]}">
+
+                                <sheet>
+                                    <div style="text-items:center;">
+                                        <label for="Registration_no" string="Registration No"/>
+                                        <br/>
+                                        <h>
+                                            <field name="Registration_no" placeholder="Registeration No....."
+                                                   style="width:100%; height:30px;"/>
+                                        </h>
+                                        <br/>
+                                        <label for="no_qabalah" string="Qabala No"/>
+                                        <br/>
+                                        <field name="no_qabalah" placeholder="Qabala No"
+                                               style="width:45%; height:30px;"/>
+                                        <br/>
+                                        <label for="shumara_e_Qetah" string="Shumara Qetah"/>
+                                        <br/>
+                                        <field name="shumara_e_Qetah" placeholder="Qetah Shumara"
+                                               style="width:45%; height:30px;"/>
+                                        <br/>
+                                        <label for="Grade_Qetah" string="Grade Qetah"/>
+                                        <br/>
+                                        <h>
+                                            <field name="Grade_Qetah" placeholder="Grade Qetah"
+                                                   style="width:45%; height:30px;"/>
+                                        </h>
+
+                                        <br/>
+                                        <label for="Number_e_kadistari" string="Kadistari No"/>
+                                        <br/>
+                                        <field name="Number_e_kadistari" placeholder="kadistari No"
+                                               style="width:45%; height:30px;"/>
+
+                                        <br/>
+                                        <label for="Qemat_Property" string="Qemat Property"/>
+                                        <br/>
+                                        <field name="Qemat_Property" placeholder="Qemat Property"
+                                               style="width:45%; height:30px;"/>
+
+                                        <br/>
+                                        <label for="Owner_of_property" string="Property Owner"/>
+                                        <br/>
+                                        <field name="Owner_of_property" placeholder="Property Owner"
+                                               style="width:45%; height:30px;"/>
+                                        <br/>
+
+                                    </div>
+
+                                </sheet>
+
+                            </page>
+                            <page string="four sides" attrs="{'invisible': [('type','!=','property')]}">
+                                <sheet>
+                                    <div>
+                                        <label for="North" string="North Side"/>
+                                        <br/>
+                                        <h>
+                                            <field name="North" placeholder="North Side..."
+                                                   style="width:100%; height:30px;"/>
+                                        </h>
+                                        <br/>
+                                        <label for="South" string="South Side"/>
+                                        <br/>
+                                        <field name="South" placeholder="South Side..."
+                                               style="width:45%; height:30px;"/>
+                                        <br/>
+                                        <label for="West" string="West Side"/>
+                                        <br/>
+                                        <field name="West" placeholder="West Side..." style="width:45%; height:30px;"/>
+                                        <br/>
+                                        <label for="East" string="East Side"/>
+                                        <br/>
+                                        <h>
+                                            <field name="East" placeholder="East Side..."
+                                                   style="width:45%; height:30px;"/>
+                                        </h>
+                                    </div>
+                                </sheet>
+                            </page>
+
+                        </notebook>
+                        <div attrs="{'invisible': ['|',('type','=', 'property'),('type','!=','site')]}">
+
+                            <separator string="Site Info" colspan="2"/>
+                            <div style="width:45%; height:auto; display:inline-block;">
+
+                                <label for="site_number" string="Site No"/>
+                                <br/>
+                                <field name="site_number" style="width:60%; height:30px;" placeholder="Site Number..."/>
+                                <br/>
+
+                                <separator string="Reputation of Lessor"/>
+                                <br/>
+                                <label for="typeof_lessor" string="Type of Lessor"/>
+                                <br/>
+                                <field name="typeof_lessor" placeholder="select type..." style="height:30px;"/>
+
+                            </div>
+                            <div>
+                                <div style="width:45%;  float:left;">
+                                    <label for="lessor_name" string="Name"/>
+                                    <br/>
+                                    <field name="lessor_name" placeholder=" Name" style="width:60%; height:30px;"/>
+                                    <br/>
+                                    <label for="lessor_fname" string="Father Name"/>
+                                    <br/>
+                                    <field name="lessor_fname" placeholder="Father Name"
+                                           style="width:60%; height:30px;"/>
+                                    <br/>
+                                    <label for="phone_no" string="Phone No"/>
+                                    <br/>
+                                    <field name="phone_no" placeholder="phone..." style="width:60%; height:30px;"/>
+                                    <br/>
+                                    <label for="name_company" string="Company Name"/>
+                                    <br/>
+                                    <field name="name_company" placeholder="Company Name"
+                                           style="width:60%; height:30px;"/>
+                                    <br/>
+                                    <label for="contract_start_date" string="Contract Start Date"/>
+                                    <br/>
+                                    <field name="contract_start_date" style="width:60%; height:30px;"/>
+                                    <br/>
+                                    <label for="contract_end_date" string="Contract End Date"/>
+                                    <br/>
+                                    <field name="contract_end_date" style="width:60%; height:30px;"/>
+                                </div>
+                                <div style="float:right; width:45%;"
+                                     attrs="{'invisible': [('typeof_lessor', '=', 'free')]}">
+                                    <label for="monthly_rent" string="Monthly Rent"/>
+                                    <br/>
+                                    <field name="monthly_rent" placeholder="Monthly Rent"
+                                           style="width:60%; height:30px;"/>
+                                    <br/>
+                                    <label for="monetary_unit" string="Monetary Unit"/>
+                                    <br/>
+                                    <field name="monetary_unit" placeholder="Monetary Unit"
+                                           style="width:60%; height:30px;"/>
+                                    <br/>
+                                    <label for="bank_account" string="Bank Account"/>
+                                    <br/>
+                                    <field name="bank_account" placeholder="bank account..."
+                                           style="width:60%; height:30px;"/>
+                                    <br/>
+                                    <label for="bank_name" string="Bank Name"/>
+                                    <br/>
+                                    <field name="bank_name" placeholder="Bank Name" style="width:60%; height:30px;"/>
+                                    <br/>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_property_form" model="ir.actions.act_window">
+            <field name="name">Properties</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_type': 'property'}</field>
+        </record>
+
+        <menuitem action="action_property_form" id="menu_property_action"
+                  parent="menu_property_master" sequence="1"/>
+    </data>
+</odoo>

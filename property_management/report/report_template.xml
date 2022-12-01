@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_site_detail">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <h1>
+                    <p style="font-weight:bold;text-align:center;">
+                        <h1>Site Detail Report/AFTEL</h1>
+                    </p>
+                </h1>
+                <table class="table table-bordered" name="Site List">
+                    <thead style="background-color:pink;">
+                        <tr>
+                            <th>
+                                <span>Site.No</span>
+                            </th>
+                            <th>
+                                <span>Name</span>
+                            </th>
+                            <th>
+                                <span>Region</span>
+                            </th>
+                            <th>
+                                <span>Province</span>
+                            </th>
+                            <th>
+                                <span>District</span>
+                            </th>
+                            <th>
+                                <span>type of lessor</span>
+                            </th>
+                            <th>
+                                <span>Property Owner Name</span>
+                            </th>
+                            <th>
+                                <span>Father Name</span>
+                            </th>
+                            <th>
+                                <span>Phone</span>
+                            </th>
+                            <th>
+                                <span>Monthly Rent</span>
+                            </th>
+                            <th>
+                                <span>Bank Account</span>
+                            </th>
+                            <th>
+                                <span>Contract Start Date</span>
+                            </th>
+                            <th>
+                                <span>Contract End Date</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <t t-foreach="docs" t-as="o">
+                        <t t-if="o.type == 'site'">
+
+                            <tr>
+                                <td>
+                                    <t t-esc="o.site_number"/>
+                                </td>
+
+                                <td>
+                                    <t t-esc="o.name"/>
+
+                                </td>
+                                <td>
+                                    <t t-esc="o.region_id.Region_Name"/>
+                                </td>
+
+                                <td>
+                                    <t t-esc="o.province_id.Province_Name"/>
+
+                                </td>
+                                <td>
+                                    <t t-esc="o.district_id.District_Name"/>
+                                </td>
+
+                                <td>
+                                    <t t-esc="o.typeof_lessor"/>
+
+                                </td>
+                                <td>
+                                    <t t-esc="o.lessor_name"/>
+                                </td>
+
+
+                                <td>
+                                    <t t-esc="o.lessor_fname"/>
+
+                                </td>
+
+                                <td>
+                                    <t t-esc="o.phone_no"/>
+
+                                </td>
+                                <td>
+                                    <t t-esc="o.monthly_rent"/>
+
+                                </td>
+                                <td>
+                                    <t t-esc="o.bank_account"/>
+
+                                </td>
+                                <td>
+                                    <t t-esc="o.contract_start_date"/>
+
+                                </td>
+                                <td>
+                                    <t t-esc="o.contract_end_date"/>
+
+                                </td>
+
+
+                            </tr>
+
+                        </t>
+                    </t>
+
+                </table>
+            </t>
+        </t>
+    </template>
+    <template id="report_property_detail">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <p style="font-weight:bold; text-align:center;">
+                    <h1> property detail</h1>
+                </p>
+                <table class="table table-bordered" name="Site List">
+                    <thead style="background-color:pink;">
+                        <tr>
+                            <th>
+                                <span>Complete Name</span>
+                            </th>
+                            <th>
+                                <span>Region</span>
+                            </th>
+                            <th>
+                                <span>Province</span>
+                            </th>
+                            <th>
+                                <span>District</span>
+                            </th>
+                            <th>
+                                <span>Number of Floors</span>
+                            </th>
+                            <th>
+                                <span>Number of Rooms</span>
+                            </th>
+                            <th>
+                                <span>Number of Bathrooms</span>
+                            </th>
+                            <th>
+                                <span>Number of Halls</span>
+                            </th>
+                            <th>
+                                <span>Type</span>
+                            </th>
+                            <th>
+                                <span>Property Type</span>
+                            </th>
+                            <th>
+                                <span>Building Type</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <t t-foreach="docs" t-as="line">
+                        <t t-if="line.type == 'property'">
+
+                            <t t-if="line.building_type != '0'">
+                                <tr>
+                                    <td>
+                                        <t t-esc="line.name"/>
+
+                                    </td>
+                                    <td>
+                                        <t t-esc="line.region_id.Region_Name"/>
+                                    </td>
+
+                                    <td>
+                                        <t t-esc="line.province_id.Province_Name"/>
+
+                                    </td>
+                                    <td>
+                                        <t t-esc="line.district_id.District_Name"/>
+                                    </td>
+
+                                    <td>
+                                        <t t-esc="line.no_of_floor"/>
+
+                                    </td>
+                                    <td>
+                                        <t t-esc="line.no_of_room"/>
+                                    </td>
+
+
+                                    <td>
+                                        <t t-esc="line.no_of_bathroom"/>
+
+                                    </td>
+
+                                    <td>
+                                        <t t-esc="line.no_of_hall"/>
+
+                                    </td>
+                                    <td>
+                                        <t t-esc="line.type"/>
+
+                                    </td>
+                                    <td>
+                                        <t t-esc="line.property_type"/>
+
+                                    </td>
+                                    <td>
+                                        <t t-esc="line.building_type"/>
+
+                                    </td>
+                                </tr>
+
+                            </t>
+                        </t>
+                    </t>
+
+                </table>
+
+            </t>
+        </t>
+
+    </template>
+
+</odoo>
